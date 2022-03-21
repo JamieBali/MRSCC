@@ -31,3 +31,7 @@ WordNet provides 3 different similarity measures. It may be an innacurate soluti
 ## Neural Language Models
 
 A neural language model may provide more accurate results, but this will require the most experimentation as internal values will need to be optimised for the problem.
+
+## Pre-Trained Sets
+
+Lab 6 or 7, we covered the BERT pretrained model which had a fair degree of accuracy in terms of finding masked words in a string. This is clearly a good solution to the problem, though it may not have been a valid one during the actual challenge.
