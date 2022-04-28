@@ -1,7 +1,16 @@
 # The Microsoft Research Sentence Completion Challenge
 
 ```
-The Microsoft Research Sentence Completion Challenge requires a system to  be able to predict which is the most likely word (from a set of 5 possibilities) to complete a sentence. In this paper we discuss our experiments to complete this challenge. We start with a very simple random baseline and compare the accuracy of this system to that of unigram and bigram models. We then discuss the construction of trigram and quadrigram models, and how the accuracy of these models changes as we increase the size of our context window. Lastly, we compare the accuracy of these models to that of the BERT pre-trained model, which we find to be much more accurate. To conclude, we discuss how the accuracy of our system could be increased with more time for research and experimentation.
+The Microsoft Research Sentence Completion Challenge requires a system to  be able to 
+predict which is the most likely word (from a set of 5 possibilities) to complete a 
+sentence. In this paper we discuss our experiments to complete this challenge. We start 
+with a very simple random baseline and compare the accuracy of this system to that of 
+unigram and bigram models. We then discuss the construction of trigram and quadrigram 
+models, and how the accuracy of these models changes as we increase the size of our 
+context window. Lastly, we compare the accuracy of these models to that of the BERT 
+pre-trained model, which we find to be much more accurate. To conclude, we discuss how
+the accuracy of our system could be increased with more time for research and 
+experimentation.
 ```
 
 ## Introcution
@@ -24,17 +33,13 @@ The construction of higher value n-grams is not much different to the constructi
 
 The quadrigram we are constructing then adds a further layer on top of the trigram, allowing a 3rd context word to be added. This further narrows the options for target words for a given context, potentially increasing the accuracy of the system. There is the possibility that some of the combinations of context phrases and target words will not appear in the high n-grams, which will in turn decrease the accuracy again. The problems that our n-grams are not able to find a possible solution to will have a randomly selected solution added instead. 
 
-![A Graph Showing the Change in Accuracy as the Value of N Increases](/images/graph1.png)
+![A graph showing the change in accuracy as the value of n increases](/images/graph1.png)
 
 
 ### Analysis
 We recorded the accuracy of each of our n-grams to find any trend in the change in accuracy as n increased. As seen in figure 1 (at the end of the previous page), the accuracy of the system increases from the baselines (n=0 for the random system and n=1 for the unigram), but only to a point. The accuracy of the system peaks at 31.58\% with the trigram, decreasing afterwards, with the accuracy of the quadrigram being lower than that of the bigram. This shows that n-grams as a system are not infallible and eventually drop off as the number of combinations decreases. It's important to find the perfect balance between having enough combinations to get meaningful results, and not being too restrictive as to lose combinations.
 
-\begin{figure}[h]
-\includegraphics[width=6.5cm]{graph2.png}
-\centering
-\caption{A graph showing the number of times the correct target was left unfound for each value of n.}
-\end{figure}
+![A graph showing the number of times the correct target was left unfound for each value of n](/images/graph2.png)
 
 This second graph shows the number of problems in the SCC that the n-gram was unable to find a possible solution to, either because the context phrase or the target word didn't exist in its memory. It can be seen that even the bigram starts to lose combinations. The bigram finds this issue occurs 31 times, though this is most likely due to the context phrases containing proper nouns or obscure words - Question 921, for example, has the context phrase "Colonel Lysander Stark ..." which, as a proper noun, will not have occurred in the training data. The number of errors increases exponentially, and the quadrigram was unable to find a solution 752 times. As a test to find what the bottleneck in the n-gram system is, we decided to test the accuracy of the quadrigram, given only the problems it was able to find a solution to. By looking only at the 288 problems the quadrigram was able to find a solution to, we got an accuracy of 45.50\%, showing that the inability to find possible solutions was a large bottleneck in the system.
 
@@ -58,11 +63,7 @@ We have imported BERT and passed the questions from the MRSCC through its pre-tr
 ### Analysis
 BERT is very easy to import and use, running very quickly, efficiently, and accurately due to pre-training. Our system then found which of the options was most semantically similar, using WordNet's path, res, and lin similarities. Below is a graph showing the accuracy of BERT's guesses on the MRSCC.
 
-\begin{figure}[h]
-\includegraphics[width=6.5cm]{graph4.png}
-\centering
-\caption{A graph showing the accuracy of BERT, using 3 different semantic similarity measures (path, res, and lin).}
-\end{figure}
+![A graph showing the accuracy of BERT, using 3 different semantic similarity measures (path, res, and lin).](/images/graph4.png)
 
 As seen from the graph, there is over a 5\% difference in the accuracy when using different measures of semantic similarity. Path similarity gives us an accuracy of 42.06\%, and lin similarity gives an accuracy of 47.68\%. From this, we can assume that more investigation into techniques for comparing between predictions and options for answers will give us a higher overall accuracy. A suggestion for doing this would be with the use of a paraphrase identifier. A simple, one or two layer neural network that compares two sentences to see if they are paraphrases (i.e. to see if they have the same meaning) would be more accurate than just checking the semantic similarity of two words, and could show an even greater increase in accuracy.
 
@@ -75,10 +76,15 @@ With more time for research, we would create the neural n-gram variant discussed
 
 ### References
 https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR\_SCCD.pdf
+
 https://aclanthology.org/D13-1143.pdf
+
 https://www.mdpi.com/2076-3417/10/4/1340
-hopfield initial paper
+
+https://www.researchgate.net/publication/16246447_Neural_Networks_and_Physical_Systems_with_Emergent_Collective_Computational_Abilities
+
 https://link.springer.com/article/10.1007/s11023-020-09548-1
+
 https://arxiv.org/abs/1810.04805v2
 
 
